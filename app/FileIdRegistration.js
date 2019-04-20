@@ -21,7 +21,7 @@ export default class FileIdRegistration extends React.Component {
         };
 
         this.setFileId = this.setFileId.bind(this);
-        this.goToQrCodeScreen = this.goToQrCodeScreen.bind(this);
+        this.goToQrCodeScreen = this.goToFileViewerScreen.bind(this);
     }
 
     setFileId(id) {
@@ -29,7 +29,7 @@ export default class FileIdRegistration extends React.Component {
         console.log('id set' + id);
     }
 
-    goToQrCodeScreen() {
+    goToFileViewerScreen() {
         this.props.navigation.navigate('FileViewer', {fileId: this.state.fileId});
     }
 
@@ -42,7 +42,7 @@ export default class FileIdRegistration extends React.Component {
             <TextInput value={this.state.fileId} onChangeText={t => this.setFileId(t)}
                 style={styles.textbox} placeholder={"Ex. 0,0,1234"} />
 
-            <TouchableOpacity onPress={()=>this.goToQrCodeScreen()}>
+            <TouchableOpacity onPress={()=>this.goToFileViewerScreen()}>
                 <Text style={{marginTop:20,fontSize:20, color: 'white'}}>Submit</Text>
             </TouchableOpacity>
         </KeyboardAvoidingView>

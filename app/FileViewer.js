@@ -37,6 +37,10 @@ export default class FileViewer extends React.Component {
         })
         .catch(e => console.log(e))
     }
+    
+    goToQrCodeScreen() {
+        this.props.navigation.navigate('QrCodeSelector', {fileId: this.state.fileId});
+    }
 
     render() {
         let photoData = "", name = "", is21 = null, is18 = null, address = "";
@@ -55,11 +59,11 @@ export default class FileViewer extends React.Component {
             <Text style={{fontSize:25, color: 'white', marginBottom:30}}>File ID:{"  " + this.state.fileId}</Text>
             <Image style={{width: 200, height: 200}} source={{uri: photoData}} />
             
-            <Text style={{fontSize:20, color: 'white', marginBottom:10}}>Name:{" " + name}</Text>
-            <Text style={{fontSize:20, color: 'white', marginBottom:10}}>Address:{" " + address}</Text>
-            <Text style={{fontSize:20, color: 'white', marginBottom:10}}>Is 18:{" " + is18}</Text>
-            <Text style={{fontSize:20, color: 'white', marginBottom:10}}>Is 21:{" " + is21}</Text>
-            <TouchableOpacity onPress={()=>{this.props.navigation.navigate('QrCodeSelector')}}>
+            <Text style={styles.profileInfoText}>Name:{" " + name}</Text>
+            <Text style={styles.profileInfoText}>Address:{" " + address}</Text>
+            <Text style={styles.profileInfoText}>Is 18:{" " + is18}</Text>
+            <Text style={styles.profileInfoText}>Is 21:{" " + is21}</Text>
+            <TouchableOpacity onPress={()=>this.goToQrCodeScreen()}>
                 <Text style={{marginTop:20,fontSize:20, color: 'white', textAlign: "center"}}>Generate QR Code</Text>
             </TouchableOpacity>
         </View>
@@ -87,5 +91,11 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     bottom: 60
+  },
+  profileInfoText: {
+    fontSize: 20,
+    color: 'white',
+    marginBottom: 5,
+    textAlign: 'center'
   }
 });
