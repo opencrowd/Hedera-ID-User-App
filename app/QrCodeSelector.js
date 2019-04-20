@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Switch,
   Image,
+  KeyboardAvoidingView
 } from 'react-native';
 
 
@@ -19,6 +20,8 @@ export default class QrCodeSelector extends React.Component {
 
         this.state = {
             fileId: this.props.navigation.getParam('fileId'),
+            combinationName: "",
+            savedCombinations: [],
             toggles: [
                 {name: 'Photo', active: true},
                 {name: 'Name', active: false},
@@ -33,7 +36,7 @@ export default class QrCodeSelector extends React.Component {
 
     toggleSwitch (index) {
         this.setState(state => {
-            state.toggles[index].active = !state.toggles[index].active;
+            state.toggles[index].active = !state.toggles[intdex].active;
             return state;
         });
     }
@@ -45,20 +48,38 @@ export default class QrCodeSelector extends React.Component {
         return qrText;
     }
 
+    setCombinationName(name) {
+        this.setState({combinationName: name});
+    }
+
+    saveCombination() {
+        this.setState(prevState => ({
+            savedCombinations: [...prevState.savedCombinations, {name: prevState.combinationName, combination: this.getQrCodeText()}],
+            combinationName: ""
+        }));
+    }
+
     render() {
         let qrText = this.getQrCodeText();
-        return (
-        <View style={styles.container}>
+        return ( 
+        <KeyboardAvoidingView style={styles.container} behavior='padding'>
             <Text style={{fontSize:25, color: 'white', marginBottom:30}}>File ID:{"  " + this.state.fileId}</Text>
             {this.state.toggles.map((toggle, i) => <SwitchRow key={i} action={() => this.toggleSwitch(i)} value={toggle.active} displayText={toggle.name}/>)}
+            <TextInput value={this.state.combinationName} olnChangeText={t => this.setCombinationName(t)}
+                style={styles.textbox} placeholder="Enter Preset Name"/>
+            
+            <TouchableOpacity onPress={()=>this.saveCombination()}>
+                <Text style={{marginTop:5, marginBottom:25, fontSize:20, color: 'white'}}>Save Preset</Text>
+            </TouchableOpacity>
+
             <View style={{overflow: 'hidden'}}>
                 <QRCode
                 value={qrText}
-                size={200}
+                size={180}
                 bgColor='black'
                 fgColor='white'/>
             </View>
-        </View>
+        </KeyboardAvoidingView>
         );
     }
 }
@@ -66,7 +87,7 @@ export default class QrCodeSelector extends React.Component {
 const SwitchRow = ({displayText, action, value}) => {
     return (
         <View style={{display: 'flex', flexDirection:'row', marginBottom:15}}>
-            <Text style={{flex: 4, fontSize:18, color: 'white'}}>{displayText}</Text>
+            <Text style={{flex: 4, fontSize:15, color: 'white'}}>{displayText}</Text>
             <Switch style={{flex: 1}} onValueChange={action} value={value}/>
         </View>
     );
@@ -86,7 +107,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 300,
     height: 50,
-    marginTop: 20,
+    marginTop: 10,
     paddingLeft:10,
     backgroundColor: 'white'
   },
