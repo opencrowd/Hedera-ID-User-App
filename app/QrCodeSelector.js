@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Switch,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Picker
 } from 'react-native';
 
 
@@ -20,59 +21,23 @@ export default class QrCodeSelector extends React.Component {
 
         this.state = {
             fileId: this.props.navigation.getParam('fileId'),
-            combinationName: "",
-            savedCombinations: [],
-            toggles: [
-                {name: 'Photo', active: true},
-                {name: 'Name', active: false},
-                {name: 'Age 18', active: false},
-                {name: 'Age 21', active: false},
-                {name: 'Address', active: false}
-            ]
+            selectedCombinationIndex: 0,
+            //savedCombinations: this.props.navigation.getParam('savedCombinations')
+            savedCombinations: [{name: 'Bar ID', combination: '0,0,1663:10101'}, {name: 'Name and Address', combination: '0,0,1663:11001'},  {name: 'Full ID', combination: '0,0,1663:11111'}]
         };
-
-        this.toggleSwitch = this.toggleSwitch.bind(this);
     }
 
-    toggleSwitch (index) {
-        this.setState(state => {
-            state.toggles[index].active = !state.toggles[intdex].active;
-            return state;
-        });
-    }
-
-    getQrCodeText() {
-        let qrText = this.state.fileId + ":";
-        this.state.toggles.forEach((toggle) => qrText += toggle.active ? '1' : '0');
-        console.log(qrText);
-        return qrText;
-    }
-
-    setCombinationName(name) {
-        this.setState({combinationName: name});
-    }
-
-    saveCombination() {
-        this.setState(prevState => ({
-            savedCombinations: [...prevState.savedCombinations, {name: prevState.combinationName, combination: this.getQrCodeText()}],
-            combinationName: ""
-        }));
-    }
 
     render() {
-        let qrText = this.getQrCodeText();
+        // Scrollable list of profile combinations. Highlight selected (bgcolor light purple?)
+
+
+        let qrText = "text";
         return ( 
         <KeyboardAvoidingView style={styles.container} behavior='padding'>
-            <Text style={{fontSize:25, color: 'white', marginBottom:30}}>File ID:{"  " + this.state.fileId}</Text>
-            {this.state.toggles.map((toggle, i) => <SwitchRow key={i} action={() => this.toggleSwitch(i)} value={toggle.active} displayText={toggle.name}/>)}
-            <TextInput value={this.state.combinationName} olnChangeText={t => this.setCombinationName(t)}
-                style={styles.textbox} placeholder="Enter Preset Name"/>
-            
-            <TouchableOpacity onPress={()=>this.saveCombination()}>
-                <Text style={{marginTop:5, marginBottom:25, fontSize:20, color: 'white'}}>Save Preset</Text>
-            </TouchableOpacity>
-
-            <View style={{overflow: 'hidden'}}>
+            <Text style={{fontSize:20, color: 'white', marginBottom:30}}>Select a Profile Preset:</Text>
+            {this.state.savedCombinations.map((combination, i) => <ProfilePresetRow key={i} action={() => console.log('clicked')} name={combination.name} value={combination.combination} selected={this.state.selectedCombinationIndex == i}/>)}
+            <View style={{overflow: 'hidden', marginTop: 30}}>
                 <QRCode
                 value={qrText}
                 size={180}
@@ -84,12 +49,9 @@ export default class QrCodeSelector extends React.Component {
     }
 }
 
-const SwitchRow = ({displayText, action, value}) => {
+const ProfilePresetRow = ({action, name, value, selected}) => {
     return (
-        <View style={{display: 'flex', flexDirection:'row', marginBottom:15}}>
-            <Text style={{flex: 4, fontSize:15, color: 'white'}}>{displayText}</Text>
-            <Switch style={{flex: 1}} onValueChange={action} value={value}/>
-        </View>
+        <Text style={selected ? styles.profilePresetSelected : styles.profilePreset}> {name}</Text>
     );
 } 
 
@@ -100,7 +62,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     backgroundColor: '#372248'
-    //backgroundColor: '#924bcc'
   },
   textbox: {
     borderRadius: 10,
@@ -114,5 +75,30 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     bottom: 60
+  },
+  profilePreset: {
+      fontSize: 20,
+      color: 'white',
+      textAlign: 'center',
+      width: 250,
+      borderWidth: 1,
+      borderColor: 'white',
+      borderRadius: 10,
+      paddingTop: 8,
+      paddingBottom: 8,
+      marginBottom: 8
+  },
+  profilePresetSelected: {
+    fontSize: 20,
+    textAlign: 'center',
+    width: 250,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 10,
+    paddingTop: 8,
+    paddingBottom: 8,
+    marginBottom: 8,
+    backgroundColor: 'white',
+    color: '#372248'
   }
 });

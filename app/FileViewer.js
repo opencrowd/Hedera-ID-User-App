@@ -39,7 +39,7 @@ export default class FileViewer extends React.Component {
     }
     
     goToQrCodeScreen() {
-        this.props.navigation.navigate('QrCodeSelector', {fileId: this.state.fileId});
+        this.props.navigation.navigate('ProfileCombinationSelector', {fileId: this.state.fileId});
     }
 
     render() {
@@ -57,14 +57,26 @@ export default class FileViewer extends React.Component {
         return (
         <View style={styles.container}>
             <Text style={{fontSize:25, color: 'white', marginBottom:30}}>File ID:{"  " + this.state.fileId}</Text>
-            <Image style={{width: 200, height: 200}} source={{uri: photoData}} />
-            
-            <Text style={styles.profileInfoText}>Name:{" " + name}</Text>
-            <Text style={styles.profileInfoText}>Address:{" " + address}</Text>
-            <Text style={styles.profileInfoText}>Is 18:{" " + is18}</Text>
-            <Text style={styles.profileInfoText}>Is 21:{" " + is21}</Text>
-            <TouchableOpacity onPress={()=>this.goToQrCodeScreen()}>
-                <Text style={{marginTop:20,fontSize:20, color: 'white', textAlign: "center"}}>Generate QR Code</Text>
+            <Image style={{width: 200, height: 200, marginBottom: 20}} source={{uri: photoData}} />
+            <View style={styles.profileInfoRow}>
+                <Text style={styles.profileInfoHeader}>Name:</Text>
+                <Text style={styles.profileInfoValue}>{name}</Text>
+            </View>
+            <View style={styles.profileInfoRow}>
+                <Text style={styles.profileInfoHeader}>Address:</Text>
+                <Text style={styles.profileInfoValue}>{address}</Text>
+            </View>
+            <View style={styles.profileInfoRow}>
+                <Text style={styles.profileInfoHeader}>Is 18:</Text>
+                <Text style={styles.profileInfoValue}>{"" + is18}</Text>
+            </View>
+            <View style={styles.profileInfoRow}>
+                <Text style={styles.profileInfoHeader}>is 21:</Text>
+                <Text style={styles.profileInfoValue}>{"" + is21}</Text>
+            </View>
+            <TouchableOpacity style={{marginTop: 20}} onPress={()=>this.goToQrCodeScreen()}>
+                {/* <Text style={{marginTop:20,fontSize:20, color: 'white', textAlign: "center"}}>Generate QR Code</Text> */}
+                <Text style={styles.button}>Generate QR Code</Text>
             </TouchableOpacity>
         </View>
         );
@@ -92,10 +104,45 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 60
   },
+  profileInfoRow: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  profileInfoHeader: {
+    borderWidth: 1,
+    borderColor: 'white',
+    fontSize: 20,
+    color: 'white',
+    marginBottom: 5,
+    paddingLeft: 5,
+    textAlign: 'left',
+    flex: 2
+  },
+  profileInfoValue: {
+    borderWidth: 1,
+    borderColor: 'white',
+    fontSize: 20,
+    color: 'white',
+    marginBottom: 5,
+    paddingLeft: 5,
+    textAlign: 'left',
+    flex: 5
+    },
   profileInfoText: {
     fontSize: 20,
     color: 'white',
     marginBottom: 5,
     textAlign: 'center'
+  },
+  button: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'white',
+    backgroundColor: '#521d6d',
+    color: 'white',
+    padding: 8,
+    fontSize: 18,
+    marginLeft: 14,
+    marginRight: 14
   }
 });
