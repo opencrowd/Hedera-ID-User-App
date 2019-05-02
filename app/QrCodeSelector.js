@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   NavigatorIOS,
   StyleSheet,
   Switch,
@@ -25,18 +26,21 @@ export default class QrCodeSelector extends React.Component {
             //savedCombinations: this.props.navigation.getParam('savedCombinations')
             savedCombinations: [{name: 'Bar ID', combination: '0,0,1663:10101'}, {name: 'Name and Address', combination: '0,0,1663:11001'},  {name: 'Full ID', combination: '0,0,1663:11111'}]
         };
+        
+        this.setSelectedCombination = this.setSelectedCombination.bind(this);
     }
 
+    setSelectedCombination(index) {
+        this.setState({selectedCombinationIndex: index});
+    }
 
     render() {
         // Scrollable list of profile combinations. Highlight selected (bgcolor light purple?)
-
-
-        let qrText = "text";
+        let qrText = this.state.savedCombinations[this.state.selectedCombinationIndex].combination;
         return ( 
         <KeyboardAvoidingView style={styles.container} behavior='padding'>
             <Text style={{fontSize:20, color: 'white', marginBottom:30}}>Select a Profile Preset:</Text>
-            {this.state.savedCombinations.map((combination, i) => <ProfilePresetRow key={i} action={() => console.log('clicked')} name={combination.name} value={combination.combination} selected={this.state.selectedCombinationIndex == i}/>)}
+            {this.state.savedCombinations.map((combination, i) => <ProfilePresetRow key={i} action={() => this.setSelectedCombination(i)} name={combination.name} value={combination.combination} selected={this.state.selectedCombinationIndex == i}/>)}
             <View style={{overflow: 'hidden', marginTop: 30}}>
                 <QRCode
                 value={qrText}
@@ -51,7 +55,9 @@ export default class QrCodeSelector extends React.Component {
 
 const ProfilePresetRow = ({action, name, value, selected}) => {
     return (
-        <Text style={selected ? styles.profilePresetSelected : styles.profilePreset}> {name}</Text>
+        <TouchableWithoutFeedback onPress={action}>
+            <Text style={selected ? styles.profilePresetSelected : styles.profilePreset}> {name}</Text>
+        </TouchableWithoutFeedback>
     );
 } 
 
