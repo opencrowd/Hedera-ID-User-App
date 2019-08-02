@@ -13,7 +13,7 @@ import {
   KeyboardAvoidingView,
   ToastAndroid
 } from 'react-native';
-
+import PageHeader from './Header.js'
 
 export default class ProfileCombinationSelector extends React.Component {
     constructor(props) {
@@ -24,11 +24,11 @@ export default class ProfileCombinationSelector extends React.Component {
             combinationName: "",
             savedCombinations: [],
             toggles: [
-                {name: 'Photo', active: true},
-                {name: 'Name', active: false},
-                {name: 'Age 18', active: false},
-                {name: 'Age 21', active: false},
-                {name: 'Address', active: false}
+                {name: 'Share my Photo', active: true},
+                {name: 'Share my Name', active: false},
+                {name: 'Share my Age (18+)', active: false},
+                {name: 'Share my Age (21+)', active: false},
+                {name: 'Share my Address', active: false}
             ]
         };
 
@@ -45,7 +45,6 @@ export default class ProfileCombinationSelector extends React.Component {
     getQrCodeText() {
         let qrText = this.state.fileId + ":";
         this.state.toggles.forEach((toggle) => qrText += toggle.active ? '1' : '0');
-        console.log(qrText);
         return qrText;
     }
 
@@ -69,7 +68,8 @@ export default class ProfileCombinationSelector extends React.Component {
         let qrText = this.getQrCodeText();
         return ( 
         <KeyboardAvoidingView style={styles.container} behavior='padding'>
-            <Text style={{fontSize:25, color: 'white', marginBottom:30}}>File ID:{"  " + this.state.fileId}</Text>
+            <PageHeader />
+            <Text style={{fontSize:25, color: 'white', marginTop:20, marginBottom:20}}>File ID:{"  " + this.state.fileId}</Text>
             {this.state.toggles.map((toggle, i) => <SwitchRow key={i} action={() => this.toggleSwitch(i)} value={toggle.active} displayText={toggle.name}/>)}
             <TextInput value={this.state.combinationName} onChangeText={t => this.setCombinationName(t)}
                 style={styles.textbox} placeholder="Enter Preset Name"/>
@@ -98,7 +98,7 @@ export default class ProfileCombinationSelector extends React.Component {
 
 const SwitchRow = ({displayText, action, value}) => {
     return (
-        <View style={{display: 'flex', flexDirection:'row', marginBottom:15}}>
+        <View style={{display: 'flex', flexDirection:'row', paddingLeft: 40, paddingRight: 40, marginBottom:15}}>
             <Text style={{flex: 4, fontSize:15, color: 'white'}}>{displayText}</Text>
             <Switch style={{flex: 1}} onValueChange={action} value={value}/>
         </View>
@@ -110,9 +110,22 @@ const styles = StyleSheet.create({
     flex:1,
     padding: 20,
     alignItems:'center',
-    justifyContent:'center',
-    backgroundColor: '#372248'
+    // justifyContent:'center',
+    backgroundColor: '#5a3f99'
     //backgroundColor: '#924bcc'
+  },
+  header: {
+    textAlign: 'left'
+  },
+  headerText: {
+    fontFamily: 'open-sans',
+    fontSize: 20,
+    color: '#cab4ff'
+  },
+  headerTextBold: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 20,
+    color: '#ffbe31'
   },
   textbox: {
     borderRadius: 10,

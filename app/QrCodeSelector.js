@@ -14,7 +14,7 @@ import {
   KeyboardAvoidingView,
   Picker
 } from 'react-native';
-
+import PageHeader from './Header.js'
 
 export default class QrCodeSelector extends React.Component {
     constructor(props) {
@@ -25,7 +25,6 @@ export default class QrCodeSelector extends React.Component {
             selectedCombinationIndex: 0,
             showQrCodeOnly: false,
             savedCombinations: this.props.navigation.getParam('savedCombinations')
-            //savedCombinations: [{name: 'Bar ID', combination: '0,0,1663:10101'}, {name: 'Name and Address', combination: '0,0,1663:11001'},  {name: 'Full ID', combination: '0,0,1663:11111'}]
         };
         
         this.setSelectedCombination = this.setSelectedCombination.bind(this);
@@ -45,9 +44,11 @@ export default class QrCodeSelector extends React.Component {
         let qrText = this.state.savedCombinations[this.state.selectedCombinationIndex].combination;
         return ( 
         <KeyboardAvoidingView style={this.state.showQrCodeOnly ? styles.containerLight : styles.container} behavior='padding'>
+            <PageHeader />
             <View style={{display: this.state.showQrCodeOnly ? 'none' : 'flex'}}>
                 <Text style={{fontSize:20, color: 'white', marginBottom:30}}>Select a Profile Preset:</Text>
-                {this.state.savedCombinations.map((combination, i) => <ProfilePresetRow key={i} action={() => this.setSelectedCombination(i)} name={combination.name} value={combination.combination} selected={this.state.selectedCombinationIndex == i}/>)}
+                {this.state.savedCombinations.map((combination, i) => 
+                <ProfilePresetRow key={i} action={() => this.setSelectedCombination(i)} name={combination.name} value={combination.combination} selected={this.state.selectedCombinationIndex == i}/>)}
             </View>
             <TouchableWithoutFeedback onPress={() => this.toggleQrCodeView()}> 
                 <View style={{overflow: 'hidden', marginTop: 30}}>
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor: '#372248'
+    backgroundColor: '#5a3f99'
   },
   containerLight: {
     flex:1,

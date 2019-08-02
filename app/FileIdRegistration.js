@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
+import PageHeader from './Header.js'
 
 
 export default class FileIdRegistration extends React.Component {
@@ -17,7 +18,7 @@ export default class FileIdRegistration extends React.Component {
         super(props);
 
         this.state = {
-            fileId: ""
+            fileId: "",
         };
 
         this.setFileId = this.setFileId.bind(this);
@@ -37,11 +38,11 @@ export default class FileIdRegistration extends React.Component {
         return (
 
         <KeyboardAvoidingView style={styles.container} behavior='padding'>
-            <Entypo style={{marginBottom: 50}} name="text-document" size={120} color="white"/>
-            <Text style={{textAlign: 'left', marginBottom:10,fontSize:15, color: 'white'}}>Input File ID:</Text>
+            <PageHeader />
+            <Entypo style={{marginBottom: 50, marginTop: 30}} name="text-document" size={120} color="#cab4ff"/>
+            <Text style={{textAlign: 'left', marginBottom:10,fontSize:28, color: '#cab4ff'}}>Enter your File ID:</Text>
             <TextInput value={this.state.fileId} onChangeText={t => this.setFileId(t)}
                 style={styles.textbox} placeholder={"Ex. 0,0,1234"} />
-
             <TouchableOpacity onPress={()=>this.goToFileViewerScreen()}>
                 <Text style={{marginTop:20,fontSize:20, color: 'white'}}>Submit</Text>
             </TouchableOpacity>
@@ -55,9 +56,8 @@ const styles = StyleSheet.create({
     flex:1,
     padding: 20,
     alignItems:'center',
-    justifyContent:'center',
-    backgroundColor: '#372248'
-    //backgroundColor: '#924bcc'
+    // justifyContent:'center',
+    backgroundColor: '#5a3f99'
   },
   textbox: {
     borderRadius: 10,

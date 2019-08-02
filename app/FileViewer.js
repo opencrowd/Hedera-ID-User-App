@@ -2,14 +2,12 @@ import React from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
-  NavigatorIOS,
   StyleSheet,
-  Switch,
   Image,
 } from 'react-native';
-
+import PageHeader from './Header.js'
+import { Font } from 'expo';
 
 export default class FileViewer extends React.Component {
     constructor(props) {
@@ -17,18 +15,28 @@ export default class FileViewer extends React.Component {
 
         this.state = {
             fileId: this.props.navigation.getParam('fileId'),
-            data: null
+            data: null,
+            fontLoaded: false
         };
     }
 
+    async componentDidMount() {
+      await Font.loadAsync({
+        'open-sans' : require('../assets/fonts/Open_Sans/OpenSans-Regular.ttf'),
+        'open-sans-bold' : require('../assets/fonts/Open_Sans/OpenSans-Bold.ttf'),
+      });
+      this.setState({ fontLoaded: true });
+    }
+
     fileIdToUrl() {
-        const baseUrl = 'http://3.83.187.253:8080/hedera/file/';
+        const baseUrl = 'http://18.207.131.70:8080//hedera/file/';
         let fileId = this.state.fileId;
         let fileIdUrl = fileId.replace(/,/g, '/');
         return baseUrl + fileIdUrl;
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        this.setState({ fontLoaded: true });
         fetch(this.fileIdToUrl())
         .then(response => response.json())
         .then(data => { 
@@ -56,7 +64,8 @@ export default class FileViewer extends React.Component {
 
         return (
         <View style={styles.container}>
-            <Text style={{fontSize:25, color: 'white', marginBottom:30}}>File ID:{"  " + this.state.fileId}</Text>
+            <PageHeader />
+            <Text style={{fontSize:25, color: 'white', marginTop: 40, marginBottom:30}}>File ID:{"  " + this.state.fileId}</Text>
             <Image style={{width: 200, height: 200, marginBottom: 20}} source={{uri: photoData}} />
             <View style={styles.profileInfoRow}>
                 <Text style={styles.profileInfoHeader}>Name:</Text>
@@ -88,8 +97,8 @@ const styles = StyleSheet.create({
     flex:1,
     padding: 20,
     alignItems:'center',
-    justifyContent:'center',
-    backgroundColor: '#372248'
+    // justifyContent:'center',
+    backgroundColor: '#5a3f99'
   },
   textbox: {
     borderRadius: 10,
