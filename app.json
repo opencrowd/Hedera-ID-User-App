@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "barcode-generator",
+    "name": "hedera-hashgraph-persona",
     "description": "No description",
     "slug": "snack-SJSpqz4c4",
     "privacy": "unlisted",
@@ -23,6 +23,10 @@
     },
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ]
   }
 }
