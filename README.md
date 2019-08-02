@@ -34,29 +34,29 @@ Ex: `0,0,1003`
 This ID, including commas, should be input via the FileIDRegistration page of the app.
 
 ## App Pages and Status
-###Login
+### Login
 Allows user to input username and pin.
-#####Status:  Currently no validation performed on login info.
+##### Status:  Currently no validation performed on login info.
 
-###File ID Registration
+### File ID Registration
 Allows user to enter File ID. Contents of file can be viewed in next page.
-#####Status: Feature complete.
+##### Status: Feature complete.
 
-###File Viewer
+### File Viewer
 Uses File ID from previous page to call hedera file API, get and parse file data, and display.
-#####Status: Feature complete. Missing some updated design elements (18+ , 21+ icons)
+##### Status: Feature complete. Missing some updated design elements (18+ , 21+ icons)
 
-###Profile Combination Selector
+### Profile Combination Selector
 Allows user to save QR codes representing different combinations of identity features:
 Ex. QRCode #1: Photo + Name + Address
 QRCode #2: Photo + is21
-#####Status: QR codes do not perist if app is restarted.
+##### Status: QR codes do not perist if app is restarted.
 
-###QrCodeSelector
+### QrCodeSelector
 Allows user to selected a saved qr code (from previous page).
-#####Status: QR codes do not perist if app is restarted.
+##### Status: QR codes do not perist if app is restarted.
 
-###Additional 
+### Additional 
 - **Navigation bar/menu**: App will require restructuring of state management for nav bar and menu to work properly so they have been disabled. Currently, state on each page is transient, with each page passing relevant state variables to the next page in the sequence.
 Ex. FileIDRegistration page passes `fileId` to FileViewer page
 Navigation between pages at will requires introduction of global state management via Redux or similar library.
